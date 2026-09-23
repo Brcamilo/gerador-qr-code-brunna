@@ -3,913 +3,1866 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gerador de QR Code — Bruna Camilo</title>
+<title>Gerador de QR Code — Bruna Camilo • V22</title>
 <style>
-  :root{
-    --blue:#224f9a;
-    --dark:#323d4c;
-    --light:#f4f6f9;
-    --border:#d9dee7;
-    --green:#18864b;
-    --red:#c93434;
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:var(--light);
-    color:var(--dark);
-  }
-  header{
-    background:linear-gradient(135deg,var(--blue),#173a74);
-    color:#fff;
-    padding:22px 18px;
-    text-align:center;
-  }
-  header h1{margin:0;font-size:26px}
-  header p{margin:7px 0 0;opacity:.9}
-  main{max-width:1150px;margin:22px auto;padding:0 16px}
-  .grid{
-    display:grid;
-    grid-template-columns:360px 1fr;
-    gap:18px;
-  }
-  .card{
-    background:#fff;
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:18px;
-    box-shadow:0 4px 14px rgba(0,0,0,.05);
-  }
-  label{display:block;font-weight:700;margin:0 0 7px}
-  input,textarea,select{
-    width:100%;
-    border:1px solid #cbd2dd;
-    border-radius:9px;
-    padding:11px 12px;
-    font-size:15px;
-    outline:none;
-    background:#fff;
-  }
-  input:focus,textarea:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(34,79,154,.1)}
-  textarea{min-height:92px;resize:vertical}
-  .field{margin-bottom:15px}
-  .hint{font-size:12px;color:#697586;margin-top:5px;line-height:1.4}
-  .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  button{
-    border:0;border-radius:9px;padding:11px 14px;font-weight:700;cursor:pointer;
-    background:var(--blue);color:#fff;
-  }
-  button.secondary{background:#eef2f7;color:var(--dark);border:1px solid var(--border)}
-  button.green{background:var(--green)}
-  button.red{background:var(--red)}
-  button:disabled{opacity:.5;cursor:not-allowed}
-  .actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:8px}
-  .status{
-    margin:0 0 14px;padding:10px 12px;border-radius:9px;font-size:13px;
-    background:#fff7df;border:1px solid #efd78c;color:#6e5700;
-  }
-  .status.ok{background:#eaf8f0;border-color:#b8e2c9;color:#17663b}
-  .status.error{background:#fff0f0;border-color:#efb5b5;color:#9a2525}
-  .preview{
-    min-height:470px;display:flex;align-items:center;justify-content:center;
-    background:#fff;border:2px dashed #d5dbe5;border-radius:12px;padding:24px;
-  }
-  #qrArea{
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    background:#fff;padding:22px;min-width:300px;
-  }
-  #qrcode{
-    display:flex;align-items:center;justify-content:center;
-    background:#fff;
-  }
-  #qrcode canvas,#qrcode img{display:block}
-  #displayText{
-    margin-top:14px;text-align:center;font-size:22px;font-weight:800;
-    letter-spacing:.5px;word-break:break-word;max-width:100%;
-  }
-  #smallText{
-    margin-top:5px;text-align:center;font-size:13px;color:#596575;word-break:break-word;max-width:100%;
-  }
-  .legend{
-    margin-top:14px;padding:12px;background:#f7f9fc;border-radius:9px;
-    font-size:13px;line-height:1.5;
-  }
-  .table-wrap{overflow:auto;margin-top:18px}
-  table{width:100%;border-collapse:collapse;background:#fff}
-  th,td{border-bottom:1px solid var(--border);padding:9px;text-align:left;font-size:13px}
-  th{background:#f1f4f8}
-  .qr-mini{width:90px;height:90px;object-fit:contain;background:#fff}
-  .tag{
-    display:inline-block;padding:3px 7px;border-radius:20px;background:#eaf0fb;color:var(--blue);
-    font-size:11px;font-weight:700;
-  }
-  footer{text-align:center;color:#6b7480;padding:25px 10px;font-size:12px}
+:root{
+--blue:#224f9a;--blue2:#173a74;--dark:#263447;--muted:#667085;
+--light:#f3f6fa;--border:#d9e0ea;--green:#18864b;--red:#c93434;
+--shadow:0 8px 24px rgba(24,43,72,.07);--radius:16px
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#f3f6fa 0%,#eef2f7 100%);color:var(--dark)}
+header{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;padding:26px 18px 24px;text-align:center;box-shadow:0 3px 14px rgba(23,58,116,.16)}
+header h1{margin:0;font-size:28px;letter-spacing:-.3px}
+header p{margin:8px 0 0;font-size:14px;opacity:.9}
+main{max-width:1180px;margin:22px auto;padding:0 18px}
+.grid{display:grid;grid-template-columns:390px minmax(0,1fr);gap:20px;align-items:start}
+.card{background:#fff;border:1px solid rgba(217,224,234,.95);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.card h2{color:#24364d;font-size:21px;letter-spacing:-.2px}
+label{display:block;font-weight:700;font-size:14px;margin:0 0 7px;color:#26384e}
+.field{margin-bottom:16px}
+.hint{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.4}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+input,textarea,select{width:100%;min-height:43px;border:1px solid #cbd5e1;border-radius:10px;padding:10px 12px;font-size:14px;color:#243447;outline:none;background:#fff}
+textarea{min-height:92px;resize:vertical}
+input:focus,textarea:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(34,79,154,.12)}
+button{border:0;border-radius:10px;min-height:40px;padding:10px 14px;font-weight:700;cursor:pointer;background:var(--blue);color:#fff}
+button.secondary{background:#f1f4f8;color:var(--dark);border:1px solid var(--border)}
+button.green{background:var(--green)}
+button.red{background:var(--red)}
+button:disabled{opacity:.5;cursor:not-allowed}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.status{margin:0 0 14px;padding:11px 13px;border-radius:10px;font-size:13px;background:#fff7df;border:1px solid #efd78c;color:#6e5700;box-shadow:0 2px 7px rgba(24,43,72,.025)}
+.status.ok,.status.print-ok{background:#eaf8f0;border-color:#b8e2c9;color:#17663b}
+.status.error,.status.print-error{background:#fff0f0;border-color:#efb5b5;color:#9a2525}
+.preview{min-height:540px;border:2px dashed #cfd8e5;border-radius:14px;background:#fff;padding:30px;display:flex;align-items:center;justify-content:center}
+#qrArea{min-width:320px;max-width:100%;padding:26px 28px;border:1px solid #e3e8ef;border-radius:14px;background:#fff;box-shadow:0 8px 26px rgba(24,43,72,.08);display:flex;flex-direction:column;align-items:center;justify-content:center}
+#qrcode{display:flex;align-items:center;justify-content:center;background:#fff;padding:0;min-width:20px;min-height:20px}
+#qrcode canvas,#qrcode img{display:block;image-rendering:pixelated;image-rendering:crisp-edges}
+#displayText{margin-top:7px;text-align:center;font-size:21px;font-weight:800;display:block;width:100%;letter-spacing:.5px;word-break:break-word;max-width:100%}
+#smallText{margin-top:3px;text-align:center;font-size:12px;color:#596575;word-break:break-word;max-width:100%}
+#displayText:empty,#smallText:empty{display:none}
+.legend{margin-top:14px;padding:12px 14px;border-radius:10px;background:#f8fafc;border:1px solid #e7ebf1;font-size:13px;line-height:1.5}
+.table-wrap{overflow:auto;margin-top:18px}
+table{width:100%;border-collapse:collapse;background:#fff}
+th,td{border-bottom:1px solid var(--border);padding:10px;text-align:left;font-size:13px}
+th{background:#f1f4f8;font-size:12px;text-transform:uppercase;letter-spacing:.35px;color:#526174}
+.qr-mini{width:90px;height:90px;object-fit:contain;background:#fff}
+.tag{display:inline-block;padding:4px 8px;border-radius:20px;background:#eaf0fb;color:var(--blue);font-size:10px;font-weight:700}
+.section-title-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+.section-title-row h2{margin:0}
+.mini-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:999px;background:#eaf0fb;color:var(--blue);font-size:11px;font-weight:800}
+footer{text-align:center;color:#6b7480;padding:28px 10px 34px;font-size:12px}
+code{background:#eef2f7;padding:2px 5px;border-radius:5px}
+.print-only{display:none}
+.no-print{}
+.multi-pages{display:flex;flex-direction:column;gap:10px;align-items:center}
+.multi-page{background:#fff;display:grid;align-content:start;justify-content:center;box-sizing:border-box}
+.multi-item{display:flex;flex-direction:column;align-items:center;justify-content:center;break-inside:avoid;page-break-inside:avoid;overflow:hidden}
+.multi-item canvas{display:block;image-rendering:pixelated}
+.multi-label{font-weight:800;text-align:center;line-height:1.1;margin-top:1.5mm;max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.multi-entry-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:8px 0 10px}
+.multi-rows{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+.multi-row{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center}
+.multi-row .row-num{font-weight:800;color:var(--blue);min-width:28px}
+.file-btn{border-radius:9px;padding:9px 12px;background:#f1f4f8!important;color:var(--dark)!important;border:1px solid var(--border)!important}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.preview{min-height:430px}}
+@media(max-width:700px){.multi-row{grid-template-columns:1fr}.multi-row .row-num{display:none}.row{grid-template-columns:1fr}}
+@media print{
+body{background:#fff}
+header,main>.grid>.card:first-child,.history,footer,.no-print{display:none!important}
+main{margin:0;padding:0;max-width:none}
+.grid{display:block}
+.card{border:0;box-shadow:none;padding:0}
+.preview{border:0;min-height:auto;padding:0}
+#qrArea{padding:8mm;min-width:0}
+#qrcode canvas,#qrcode img{max-width:none!important}
+body.multi-printing *{visibility:hidden!important}
+body.multi-printing #multiPrintArea,
+body.multi-printing #multiPrintArea *{visibility:visible!important}
+body.multi-printing #multiPrintArea{position:absolute;left:0;top:0;width:100%}
+body.multi-printing .multi-page{break-after:page;page-break-after:always}
+body.multi-printing .multi-page:last-child{break-after:auto;page-break-after:auto}
+.print-only{display:block}
+}
 
-  .print-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .status.print-ok{background:#eaf8f0;border-color:#b8e2c9;color:#17663b}
-  .status.print-error{background:#fff0f0;border-color:#efb5b5;color:#9a2525}
-  .print-only{display:none}
-  @media(max-width:850px){.grid{grid-template-columns:1fr}.preview{min-height:390px}}
-  @media print{
-    body{background:#fff}
-    header,main>.grid> .card:first-child, .history, footer, .no-print{display:none!important}
-    main{margin:0;padding:0;max-width:none}
-    .grid{display:block}
-    .card{border:0;box-shadow:none;padding:0}
-    .preview{border:0;min-height:auto;padding:0}
-    #qrArea{padding:8mm;min-width:0}
-    #qrcode canvas,#qrcode img{max-width:none!important}
-    .print-only{display:block}
-  }
+.section-title-row h2{color:#24364d;font-size:21px;letter-spacing:-.2px}
+.print-status-wrap{position:sticky;bottom:12px;z-index:3}
 </style>
 </head>
+
 <body>
+
 <header>
-  <h1>Gerador de QR Code — Bruna Camilo</h1>
-  <p>QR Code real e compatível com leitores, coletores RF e smartphones</p>
+<h1>Gerador de QR Code</h1>
+<p>Bruna Camilo • Gerador profissional de etiquetas e QR Codes</p>
 </header>
 
 <main>
-  <div id="libStatus" class="status">Carregando o gerador QR...</div>
 
-  <div class="grid">
-    <section class="card no-print">
-      <h2 style="margin-top:0">Criar etiqueta</h2>
+<div class="grid">
 
-      <div class="field">
-        <label for="qrContent">Conteúdo dentro do QR Code</label>
-        <textarea id="qrContent" placeholder="Ex.: 123456789"></textarea>
-        <div class="hint">É exatamente este conteúdo que o leitor tentará ler.</div>
-      </div>
+<section class="card no-print">
+<div class="section-title-row">
+<h2>Gerar QR Code</h2>
+<span class="mini-badge">Bruna Camilo</span>
+</div>
 
-      <div class="field">
-        <label for="displayTextInput">Texto abaixo do QR Code</label>
-        <input id="displayTextInput" placeholder="Ex.: BRUNA CAMILO">
-        <div class="hint">Este texto é visual e não é colocado dentro do QR Code.</div>
-      </div>
+<div id="mainStatus" class="status">
+Preencha o conteúdo e gere o QR Code.
+</div>
 
-      <div class="field">
-        <label for="smallTextInput">Texto menor (opcional)</label>
-        <input id="smallTextInput" placeholder="Ex.: PICKING • SETOR A">
-      </div>
+<div class="field">
+<label for="qrContent">Conteúdo do QR Code</label>
+<textarea id="qrContent" placeholder="Digite o conteúdo do QR Code"></textarea>
+<div class="hint">Pode ser código, endereço, texto, URL ou qualquer informação que o leitor consiga interpretar.</div>
+</div>
 
-      <div class="row">
-        <div class="field">
-          <label for="printFormat">Tamanho da impressão</label>
-          <select id="printFormat">
-            <option value="label1015" selected>🏷️ Etiqueta 10 × 15 cm</option>
-            <option value="a4large">📄 A4 — etiqueta grande (aprox. 9 × 13 cm)</option>
-            <option value="a4_2">📄 A4 — 2 etiquetas por folha</option>
-            <option value="a4_4">📄 A4 — 4 etiquetas por folha</option>
-            <option value="tape4">🟨 Rotuladora — fita 4 mm</option>
-            <option value="tape6">🟨 Rotuladora — fita 6 mm</option>
-            <option value="tape8">🟨 Rotuladora — fita 8 mm</option>
-            <option value="tape12">🟨 Rotuladora — fita 12 mm</option>
-            <option value="tape18">🟨 Rotuladora — fita 18 mm</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="size">Tamanho do QR</label>
-          <select id="size">
-            <option value="auto" selected>Automático</option>
-            <option value="3">3 × 3 cm</option>
-            <option value="4">4 × 4 cm</option>
-            <option value="5">5 × 5 cm</option>
-            <option value="6">6 × 6 cm</option>
-          </select>
-        </div>
-      </div>
+<div class="field">
+<label for="displayTextInput">Texto visível abaixo do QR</label>
+<input id="displayTextInput" type="text" placeholder="Ex.: AA1">
+</div>
 
-      <div class="row">
-        <div class="field">
-          <label for="ec">Correção de erro</label>
-          <select id="ec">
-            <option value="M">M — 15%</option>
-            <option value="Q">Q — 25%</option>
-            <option value="H" selected>H — 30%</option>
-          </select>
-        </div>
-      </div>
+<div class="field">
+<label for="smallTextInput">Texto menor opcional</label>
+<input id="smallTextInput" type="text" placeholder="Informação adicional">
+</div>
 
-      <div class="hint" style="margin:-5px 0 14px">
-        O formato define a impressão física. “Automático” ajusta o QR ao formato escolhido. Para fita de 6/8/12/18 mm, o QR fica compacto para caber na largura.
-      </div>
+<div class="row">
+<div class="field">
+<label for="printFormat">Tamanho da impressão</label>
+<select id="printFormat">
+<option value="label1015">🏷️ Etiqueta 10 × 15 cm</option>
+<option value="a4large">📄 A4 — grande</option>
+<option value="a4_2">📄 A4 — 2 por folha</option>
+<option value="a4_4">📄 A4 — 4 por folha</option>
+<option value="tape4">🟨 Rotuladora — fita 4 mm</option>
+<option value="tape6" selected>🟨 Rotuladora — fita 6 mm</option>
+<option value="tape8">🟨 Rotuladora — fita 8 mm</option>
+<option value="tape12">🟨 Rotuladora — fita 12 mm</option>
+<option value="tape18">🟨 Rotuladora — fita 18 mm</option>
+<option value="zebra2x1">Zebra — 2 × 1"</option>
+<option value="zebra2x2">Zebra — 2 × 2"</option>
+<option value="zebra3x2">Zebra — 3 × 2"</option>
+<option value="zebra3x3">Zebra — 3 × 3"</option>
+<option value="zebra4x2">Zebra — 4 × 2"</option>
+<option value="zebra4x3">Zebra — 4 × 3"</option>
+<option value="zebra4x4">Zebra — 4 × 4"</option>
+</select>
+</div>
 
-      <div class="actions">
-        <button id="generateBtn" class="green">Gerar QR Code</button>
-        <button id="clearBtn" class="secondary">Limpar</button>
-      </div>
+<div class="field">
+<label for="size">Tamanho do QR</label>
+<select id="size">
+<option value="auto">Automático</option>
+<option value="2">2 × 2 cm</option>
+<option value="2.5">2,5 × 2,5 cm</option>
+<option value="3">3 × 3 cm</option>
+<option value="3.5">3,5 × 3,5 cm</option>
+<option value="4">4 × 4 cm</option>
+<option value="5">5 × 5 cm</option>
+<option value="6">6 × 6 cm</option>
+<option value="7">7 × 7 cm</option>
+<option value="8">8 × 8 cm</option>
+<option value="9">9 × 9 cm</option>
+<option value="10">10 × 10 cm</option>
+</select>
+</div>
+</div>
 
-      <div class="legend">
-        <strong>Para uso operacional:</strong> o QR é gerado em preto sobre branco, com margem de segurança ao redor e sem logo sobre o código. O texto fica fora do QR.
-      </div>
+<div class="row">
+<div class="field">
+<label for="ec">Correção de erro</label>
+<select id="ec">
+<option value="M" selected>M — recomendado</option>
+<option value="Q">Q — alta</option>
+<option value="H">H — máxima</option>
+</select>
+</div>
 
-      <div class="actions">
-        <button id="saveBtn">Salvar etiqueta</button>
-        <button id="printBtn" class="secondary">Imprimir atual</button>
-      </div>
-    </section>
+<div class="field">
+<label for="meliInventory">Mercado Livre — inventário</label>
+<input id="meliInventory" type="text" placeholder="Código do inventário">
+</div>
+</div>
 
-    <section class="card">
-      <h2 style="margin-top:0">Pré-visualização</h2>
-      <div class="preview">
-        <div id="qrArea">
-          <div id="qrcode"></div>
-          <div id="displayText"></div>
-          <div id="smallText"></div>
-        </div>
-      </div>
-      <div class="legend">
-        <strong>Leitura:</strong> o scanner lê o campo <em>Conteúdo dentro do QR Code</em>. O nome/número exibido abaixo serve como identificação visual da etiqueta.
-      </div>
-    </section>
-  </div>
+<div class="actions">
+<button id="generateBtn">Gerar QR Code</button>
+<button id="saveBtn" class="green">Salvar etiqueta</button>
+<button id="clearBtn" class="secondary">Limpar</button>
+<button id="downloadQrBtn" class="secondary">Baixar QR</button>
+<button id="printBtn">🖨️ Imprimir</button>
+</div>
 
+<hr style="border:0;border-top:1px solid #e6eaf0;margin:20px 0">
 
-  <section class="card no-print" style="margin-top:18px">
-    <h2 style="margin-top:0">🖨️ Impressão e envio</h2>
-    <div class="hint" style="margin-bottom:14px">
-      Use o QR Code já gerado. Em “A4 — 2 por folha” serão impressas 2 cópias do QR atual; em “A4 — 4 por folha”, 4 cópias. Para imprimir QR Codes diferentes na mesma folha, salve as etiquetas e selecione-as no histórico.
-    </div>
+<h2 style="margin-top:0">Impressora</h2>
 
-    <div class="row">
-      <div class="field">
-        <label for="printerIp">🌐 IP da impressora</label>
-        <input id="printerIp" placeholder="Ex.: 192.168.1.100" autocomplete="off">
-        <div class="hint">O envio usa o mesmo método do seu sistema original: http://IP/pstprnt.</div>
-      </div>
-      <div class="field">
-        <label for="meliInventory">📦 Código / Inventory Meli</label>
-        <input id="meliInventory" placeholder="Ex.: RS-0-101-101-01-01" autocomplete="off">
-        <div class="hint">Abre a página de impressão/labeling do Meli para o código informado.</div>
-      </div>
-    </div>
+<div class="field">
+<label for="printerIp">IP da impressora</label>
+<input id="printerIp" type="text" placeholder="Ex.: 192.168.1.100">
+</div>
 
-    <div class="actions">
-      <button id="downloadQrBtn" class="green">⬇️ Baixar QR Code</button>
-      <button id="notebookPrintBtn" class="secondary">🖨️ Imprimir no notebook</button>
-      <button id="ipPrintBtn">🌐 Enviar para impressora pelo IP</button>
-      <button id="meliBtn" class="secondary">📦 Enviar para Meli</button>
-    </div>
-    <div id="printStatus" class="status" style="margin-top:14px;margin-bottom:0">
-      Gere um QR Code para habilitar as opções de impressão.
-    </div>
-  </section>
+<div class="field">
+<label for="printerMode">Modo de impressão</label>
+<select id="printerMode">
+<option value="zpl-http">Zebra / ZQ630 Plus — HTTP /pstprnt</option>
+<option value="zpl-file">ZPL / RAW 9100 — arquivo .zpl</option>
+</select>
+</div>
 
-  <section class="card history" style="margin-top:18px">
-    <div class="no-print" style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
-      <div>
-        <h2 style="margin:0">Etiquetas salvas</h2>
-        <div class="hint">Você pode selecionar várias e imprimir todas em sequência.</div>
-      </div>
-      <div class="actions" style="margin-top:0">
-        <button id="selectAllBtn" class="secondary">Selecionar todas</button>
-        <button id="printSelectedBtn" class="secondary">Imprimir selecionadas</button>
-        <button id="deleteSelectedBtn" class="red">Excluir selecionadas</button>
-        <button id="clearHistoryBtn" class="red">Apagar tudo</button>
-      </div>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>QR</th>
-            <th>Conteúdo</th>
-            <th>Texto visível</th>
-            <th>Formato</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody id="historyBody"></tbody>
-      </table>
-    </div>
-  </section>
+<div class="actions">
+<button id="ipTestBtn" class="secondary">Testar IP</button>
+<button id="ipPrintBtn">Enviar QR pelo IP</button>
+<button id="downloadZplBtn" class="secondary">Baixar ZPL</button>
+<button id="copyZplBtn" class="secondary">Copiar ZPL</button>
+<button id="meliBtn" class="secondary">Mercado Livre</button>
+</div>
 
-  <section class="card no-print" style="margin-top:18px">
-    <h2 style="margin-top:0">Como funciona</h2>
-    <ol style="line-height:1.7">
-      <li>Digite o número, código ou texto que o leitor deve receber.</li>
-      <li>Digite separadamente o nome ou identificação que aparecerá abaixo.</li>
-      <li>Clique em <strong>Gerar QR Code</strong>.</li>
-      <li>Salve a etiqueta se quiser reutilizá-la depois.</li>
-      <li>Antes de imprimir em grande quantidade, faça um teste no coletor/RF que será usado na operação.</li>
-    </ol>
-    <p class="hint">
-      O QR Code segue a especificação ISO/IEC 18004. A página mantém uma zona branca ao redor do símbolo e evita elementos gráficos sobre o código.
-    </p>
-  </section>
+<div id="printStatus" class="status" style="margin-top:12px">
+Gere um QR Code para habilitar as opções de impressão.
+</div>
+
+<div class="legend">
+<strong>Zebra:</strong> o modo HTTP usa <code>http://IP/pstprnt</code>. O modo ZPL/RAW gera o comando ZPL para uso pelo notebook/spooler.
+</div>
+</section>
+
+<section class="card">
+
+<div class="section-title-row">
+<h2>Pré-visualização</h2>
+<span class="mini-badge">Tamanho real configurável</span>
+</div>
+
+<div class="preview">
+<div id="qrArea">
+<div id="qrcode"></div>
+<div id="displayText"></div>
+<div id="smallText"></div>
+</div>
+</div>
+
+<div class="legend">
+<strong>Importante:</strong> para manter o tamanho físico escolhido na impressão, use <strong>escala 100%</strong> e desative opções como <strong>“Ajustar à página”</strong> no diálogo da impressora.
+</div>
+
+</section>
+</div>
+
+<section class="card no-print" style="margin-top:20px">
+
+<div class="section-title-row">
+<h2>📄 Vários QR Codes na mesma folha</h2>
+<span class="mini-badge">Lote</span>
+</div>
+
+<p class="hint">
+Você pode adicionar vários QR Codes pelos campos abaixo ou colar vários de uma vez.
+Em uma linha, use <code>conteúdo;texto abaixo</code>. Ex.: <code>123456;RUA A</code>.
+</p>
+
+<div class="multi-entry-head">
+<strong>Adicionar vários QR Codes</strong>
+<span class="hint">Preencha um por um ou cole uma lista inteira.</span>
+</div>
+
+<div id="multiRows" class="multi-rows"></div>
+
+<div class="actions">
+<button id="addMultiRowBtn" class="secondary">＋ Adicionar QR</button>
+<button id="addFiveMultiRowsBtn" class="secondary">＋5 QR</button>
+<button id="clearMultiRowsBtn" class="secondary">🧹 Limpar campos</button>
+<button id="useMultiRowsBtn" class="green">☑ Usar QR dos campos</button>
+</div>
+
+<div class="field" style="margin-top:15px">
+<label for="multiQrList">Ou cole vários QR Codes de uma vez</label>
+<textarea id="multiQrList" placeholder="AA1;AA1&#10;AA2;AA2&#10;AA3;AA3"></textarea>
+</div>
+
+<div class="row">
+<div class="field">
+<label for="multiQrPage">Tamanho da impressão</label>
+<select id="multiQrPage">
+<option value="label1015">🏷️ Etiqueta 10 × 15 cm</option>
+<option value="a4large">📄 A4 — grande</option>
+<option value="a4_2">📄 A4 — 2 por folha</option>
+<option value="a4_4">📄 A4 — 4 por folha</option>
+<option value="tape4">🟨 Rotuladora — fita 4 mm</option>
+<option value="tape6" selected>🟨 Rotuladora — fita 6 mm</option>
+<option value="tape8">🟨 Rotuladora — fita 8 mm</option>
+<option value="tape12">🟨 Rotuladora — fita 12 mm</option>
+<option value="tape18">🟨 Rotuladora — fita 18 mm</option>
+<option value="zebra2x1">Zebra — 2 × 1"</option>
+<option value="zebra2x2">Zebra — 2 × 2"</option>
+<option value="zebra3x2">Zebra — 3 × 2"</option>
+<option value="zebra3x3">Zebra — 3 × 3"</option>
+<option value="zebra4x2">Zebra — 4 × 2"</option>
+<option value="zebra4x3">Zebra — 4 × 3"</option>
+<option value="zebra4x4">Zebra — 4 × 4"</option>
+</select>
+</div>
+
+<div class="field">
+<label for="multiQrSize">Tamanho do QR</label>
+<select id="multiQrSize">
+<option value="auto">Automático</option>
+<option value="2">2 × 2 cm</option>
+<option value="2.5">2,5 × 2,5 cm</option>
+<option value="3">3 × 3 cm</option>
+<option value="3.5">3,5 × 3,5 cm</option>
+<option value="4">4 × 4 cm</option>
+<option value="5">5 × 5 cm</option>
+<option value="6">6 × 6 cm</option>
+<option value="7">7 × 7 cm</option>
+<option value="8">8 × 8 cm</option>
+<option value="9">9 × 9 cm</option>
+<option value="10">10 × 10 cm</option>
+</select>
+<div class="hint">O tamanho escolhido é mantido na impressão.</div>
+</div>
+</div>
+
+<div class="row">
+<div class="field">
+<label for="multiQrCols">Colunas</label>
+<select id="multiQrCols">
+<option value="auto">Automático</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+</select>
+<div class="hint">Quantos QR ficam lado a lado.</div>
+</div>
+
+<div class="field">
+<label for="multiQrRows">Fileiras</label>
+<select id="multiQrRows">
+<option value="auto">Automático</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+</select>
+<div class="hint">Quantas fileiras ficam uma abaixo da outra.</div>
+</div>
+</div>
+
+<div class="row">
+<div class="field">
+<label for="multiQrGap">Espaçamento</label>
+<select id="multiQrGap">
+<option value="2">2 mm</option>
+<option value="3" selected>3 mm</option>
+<option value="5">5 mm</option>
+<option value="8">8 mm</option>
+<option value="10">10 mm</option>
+</select>
+</div>
+
+<div class="field">
+<label for="multiQrEc">Correção de erro</label>
+<select id="multiQrEc">
+<option value="M" selected>M — recomendado</option>
+<option value="Q">Q — alta</option>
+<option value="H">H — máxima</option>
+</select>
+</div>
+</div>
+
+<div class="hint" style="margin-top:8px">
+📏 <strong>Tamanho físico:</strong> os valores em cm/mm são mantidos na impressão.
+No diálogo da impressora, use <strong>escala 100%</strong> e desative “Ajustar à página” quando essa opção aparecer.
+</div>
+
+<div class="actions">
+<button id="multiQrPreviewBtn" class="secondary">👀 Pré-visualizar folha</button>
+<button id="multiQrPrintBtn">🖨️ Imprimir vários QR Codes</button>
+<button id="multiQrClearBtn" class="secondary">Limpar lista</button>
+</div>
+
+<div id="multiQrStatus" class="status" style="margin-top:14px;margin-bottom:0">
+Adicione os QR Codes e configure colunas/fileiras.
+</div>
+
+</section>
+
+<section class="card history" style="margin-top:20px">
+
+<div class="section-title-row">
+<h2>Etiquetas salvas</h2>
+</div>
+
+<p class="hint">Você pode selecionar várias e imprimir todas em sequência.</p>
+
+<div class="actions">
+<button id="selectAllBtn" class="secondary">Selecionar todas</button>
+<button id="printSelectedBtn" class="secondary">Imprimir selecionadas</button>
+<button id="deleteSelectedBtn" class="red">Excluir selecionadas</button>
+<button id="clearHistoryBtn" class="red">Apagar tudo</button>
+<button id="exportSavedBtn" class="secondary">⬇ Exportar salvas</button>
+<label class="file-btn">
+⬆ Importar salvas
+<input id="importSavedInput" type="file" accept=".json" style="display:none">
+</label>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>QR</th>
+<th>CONTEÚDO</th>
+<th>TEXTO VISÍVEL</th>
+<th>FORMATO</th>
+<th>TAMANHO</th>
+<th>AÇÕES</th>
+</tr>
+</thead>
+<tbody id="historyBody">
+<tr><td colspan="6" style="text-align:center">Nenhuma etiqueta salva.</td></tr>
+</tbody>
+</table>
+</div>
+
+</section>
+
+<div id="multiPrintArea" style="display:none"></div>
+
 </main>
 
 <footer>
-  Gerador de QR Code — Desenvolvido por Bruna Camilo • © 2026
+Gerador de QR Code — Bruna Camilo • V22
 </footer>
 
 <script>
-/*
-  Biblioteca QR: qrcodejs 1.0.0
-  Carregada de CDN. O código abaixo NÃO é um QR "desenhado":
-  a biblioteca executa a codificação QR real.
-*/
-const LIB_URLS = [
-  "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js",
-  "https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"
+const LIB_URLS=[
+"https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js",
+"https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"
 ];
 
-function loadScript(urls, index=0){
-  return new Promise((resolve,reject)=>{
-    if(window.QRCode){resolve();return;}
-    if(index >= urls.length){reject(new Error("Não foi possível carregar a biblioteca QR."));return;}
-    const s=document.createElement("script");
-    s.src=urls[index];
-    s.onload=()=>resolve();
-    s.onerror=()=>loadScript(urls,index+1).then(resolve).catch(reject);
-    document.head.appendChild(s);
-  });
+const $=id=>document.getElementById(id);
+
+let current=null;
+let saved=[];
+
+try{
+saved=JSON.parse(localStorage.getItem("bruna_qr_labels")||"[]");
+if(!Array.isArray(saved))saved=[];
+}catch(e){saved=[]}
+
+function loadScript(urls){
+return new Promise((resolve,reject)=>{
+let i=0;
+function next(){
+if(i>=urls.length){reject(new Error("QR library unavailable"));return}
+const s=document.createElement("script");
+s.src=urls[i++];
+s.onload=()=>resolve();
+s.onerror=()=>{s.remove();next()};
+document.head.appendChild(s);
+}
+next();
+});
 }
 
-const $ = id => document.getElementById(id);
-let current = null;
-let saved = JSON.parse(localStorage.getItem("bruna_qr_labels") || "[]");
+function setStatus(msg,type=""){
+const el=$("mainStatus");
+el.textContent=msg;
+el.className="status"+(type?" "+type:"");
+}
+
+function setPrintStatus(msg,type=""){
+const el=$("printStatus");
+el.textContent=msg;
+el.className="status"+(type?" "+type:"");
+}
 
 function ecValue(v){
-  return {M:QRCode.CorrectLevel.M,Q:QRCode.CorrectLevel.Q,H:QRCode.CorrectLevel.H}[v] || QRCode.CorrectLevel.H;
+return ["L","M","Q","H"].includes(v)?v:"M";
 }
 
-function setStatus(text, type=""){
-  const el=$("libStatus");
-  el.textContent=text;
-  el.className="status " + type;
+function qrErrorLevel(v){
+if(!window.QRCode)return null;
+return {
+L:QRCode.CorrectLevel.L,
+M:QRCode.CorrectLevel.M,
+Q:QRCode.CorrectLevel.Q,
+H:QRCode.CorrectLevel.H
+}[ecValue(v)];
 }
 
-
-function setPrintStatus(text, type=""){
-  const el=$("printStatus");
-  el.textContent=text;
-  el.className="status " + type;
+function escapeHtml(v){
+return String(v??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 }
 
-function requireCurrentQr(){
-  if(!current){
-    generate();
-  }
-  if(!current){
-    setPrintStatus("Gere o QR Code antes de imprimir ou enviar.", "print-error");
-    return false;
-  }
-  return true;
+function normalizeContent(v){
+return String(v??"").trim();
 }
 
-function getPreviewImageDataUrl(){
-  const canvas=$("qrcode").querySelector("canvas");
-  if(canvas) return canvas.toDataURL("image/png");
-  const img=$("qrcode").querySelector("img");
-  if(img && img.src) return img.src;
-  return null;
+function safeFileName(v){
+return String(v||"qr")
+.replace(/[^\w\-]+/g,"_")
+.replace(/^_+|_+$/g,"")
+.slice(0,80)||"qr";
 }
 
-function downloadCurrentQr(){
-  if(!requireCurrentQr()) return;
-  const sourceCanvas=$("qrcode").querySelector("canvas");
-  if(!sourceCanvas){
-    setPrintStatus("Não foi possível obter a imagem do QR Code.", "print-error");
-    return;
-  }
+function renderCrispQr(holder,text,size,ec="M"){
+holder.innerHTML="";
+const wrap=document.createElement("div");
+wrap.style.width=size+"px";
+wrap.style.height=size+"px";
+wrap.style.display="flex";
+wrap.style.alignItems="center";
+wrap.style.justifyContent="center";
+holder.appendChild(wrap);
 
-  // Baixa a etiqueta completa: QR + nome/identificação + texto menor.
-  const padding=40;
-  const gap=18;
-  const mainText=(current.visible || "").trim();
-  const smallText=(current.small || "").trim();
-  const fontMain=Math.max(24, Math.round(sourceCanvas.width*0.075));
-  const fontSmall=Math.max(16, Math.round(sourceCanvas.width*0.045));
-  const mainLines=mainText ? wrapCanvasText(mainText, sourceCanvas.width, fontMain, "Arial") : [];
-  const smallLines=smallText ? wrapCanvasText(smallText, sourceCanvas.width, fontSmall, "Arial") : [];
-  const lineMain=Math.round(fontMain*1.2);
-  const lineSmall=Math.round(fontSmall*1.25);
-  const textHeight=(mainLines.length?gap+mainLines.length*lineMain:0) + (smallLines.length?10+smallLines.length*lineSmall:0);
+new QRCode(wrap,{
+text:String(text||""),
+width:size,
+height:size,
+correctLevel:qrErrorLevel(ec)
+});
 
-  const canvas=document.createElement("canvas");
-  canvas.width=sourceCanvas.width + padding*2;
-  canvas.height=sourceCanvas.height + padding*2 + textHeight;
-  const ctx=canvas.getContext("2d");
-  ctx.fillStyle="#ffffff";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.drawImage(sourceCanvas,padding,padding);
-
-  let y=padding + sourceCanvas.height + gap;
-  ctx.textAlign="center";
-  ctx.fillStyle="#000000";
-  if(mainLines.length){
-    ctx.font=`800 ${fontMain}px Arial`;
-    mainLines.forEach(line=>{ ctx.fillText(line,canvas.width/2,y); y+=lineMain; });
-  }
-  if(smallLines.length){
-    y+=6;
-    ctx.font=`${fontSmall}px Arial`;
-    ctx.fillStyle="#596575";
-    smallLines.forEach(line=>{ ctx.fillText(line,canvas.width/2,y); y+=lineSmall; });
-  }
-
-  const safe=(mainText || current.content || "qrcode")
-    .replace(/[\\/:*?"<>|]+/g,"_").trim().slice(0,80) || "qrcode";
-  const a=document.createElement("a");
-  a.href=canvas.toDataURL("image/png");
-  a.download=safe + ".png";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setPrintStatus("Etiqueta completa baixada em PNG, com o nome abaixo do QR Code.", "print-ok");
+const canvas=wrap.querySelector("canvas");
+if(canvas){
+canvas.style.width=size+"px";
+canvas.style.height=size+"px";
+canvas.style.imageRendering="pixelated";
+canvas.style.imageRendering="crisp-edges";
 }
-
-function wrapCanvasText(text, maxWidth, fontSize, fontFamily){
-  const c=document.createElement("canvas");
-  const ctx=c.getContext("2d");
-  ctx.font=`800 ${fontSize}px ${fontFamily}`;
-  const words=text.split(/\s+/);
-  const lines=[];
-  let line="";
-  words.forEach(word=>{
-    const test=line ? line+" "+word : word;
-    if(ctx.measureText(test).width <= maxWidth){ line=test; }
-    else { if(line) lines.push(line); line=word; }
-  });
-  if(line) lines.push(line);
-  return lines;
-}
-
-function printOnNotebook(){
-  if(!requireCurrentQr()) return;
-
-  // Quando o usuário manda imprimir a etiqueta atual,
-  // "2 por folha" e "4 por folha" significam cópias da etiqueta atual.
-  // Assim, não é necessário salvar o mesmo QR várias vezes.
-  const format = current.printFormat || $("printFormat").value || "label1015";
-  const copies = format === "a4_4" ? 4 : format === "a4_2" ? 2 : 1;
-
-  const items = Array.from({length: copies}, () => ({...current}));
-  printItems(items);
-}
-
-function zplSafe(value){
-  return String(value ?? "")
-    .replace(/\^/g," ")
-    .replace(/~/g," ")
-    .replace(/[\r\n]+/g," ");
-}
-
-function getZplSettings(){
-  const format=current.printFormat || "label1015";
-  // Valores pensados para impressoras Zebra de 203 dpi, mantendo QR quadrado.
-  const map={
-    label1015:{pw:812,ll:1218,qrX:70,qrY:55,module:8,textY:720},
-    a4large:{pw:720,ll:1040,qrX:70,qrY:45,module:7,textY:650},
-    a4_2:{pw:720,ll:1040,qrX:70,qrY:45,module:7,textY:650},
-    a4_4:{pw:720,ll:1040,qrX:55,qrY:35,module:6,textY:560},
-    tape12:{pw:480,ll:240,qrX:25,qrY:20,module:2,textY:175},
-    tape18:{pw:480,ll:300,qrX:25,qrY:20,module:3,textY:225}
-  };
-  return map[format] || map.label1015;
-}
-
-function buildQrZpl(){
-  const s=getZplSettings();
-  const content=zplSafe(current.content);
-  const visible=zplSafe(current.visible || "");
-  const small=zplSafe(current.small || "");
-  const data=`^FDLA,${content}^FS`;
-  return `^XA
-^PW${s.pw}^LL${s.ll}^LH0,0^CI28
-^FO${s.qrX},${s.qrY}^BQN,2,${s.module}${data}
-${visible ? `^FO20,${s.textY}^A0N,34,34^FB${s.pw-40},1,0,C^FD${visible}^FS` : ""}
-${small ? `^FO20,${s.textY+48}^A0N,20,20^FB${s.pw-40},1,0,C^FD${small}^FS` : ""}
-^XZ`;
-}
-
-function sendToPrinterByIp(){
-  if(!requireCurrentQr()) return;
-  const ip=$("printerIp").value.trim().replace(/^https?:\/\//i,"").replace(/\/.*$/,"");
-  if(!ip){
-    setPrintStatus("Informe o IP da impressora.", "print-error");
-    $("printerIp").focus();
-    return;
-  }
-
-  const zpl=buildQrZpl();
-  setPrintStatus("Enviando QR Code para a impressora...", "");
-  fetch("http://" + ip + "/pstprnt",{
-    method:"POST",
-    mode:"no-cors",
-    headers:{"Content-Type":"text/plain"},
-    body:zpl
-  })
-  .then(()=>{
-    setPrintStatus("SUCESSO: comando enviado para a impressora pelo IP.", "print-ok");
-  })
-  .catch(()=>{
-    setPrintStatus("ERRO: o navegador bloqueou o envio ou a impressora está offline.", "print-error");
-  });
-}
-
-function sendToMeli(){
-  if(!requireCurrentQr()) return;
-  const code=$("meliInventory").value.trim();
-  if(!code){
-    setPrintStatus("Informe o código / Inventory do Meli.", "print-error");
-    $("meliInventory").focus();
-    return;
-  }
-  const url="https://wms.adminml.com/labeling?inventory=" + encodeURIComponent(code);
-  window.open(url,"_blank");
-  setPrintStatus("Página de labeling do Meli aberta para o código informado.", "print-ok");
+return wrap;
 }
 
 function generate(){
-  if(!window.QRCode){
-    setStatus("O gerador QR ainda não carregou. Abra novamente com internet para carregar a biblioteca.", "error");
-    return;
-  }
-
-  const content=$("qrContent").value;
-  const visible=$("displayTextInput").value;
-  const small=$("smallTextInput").value;
-  const printFormat=$("printFormat").value;
-  const sizeValue=$("size").value;
-  const ec=$("ec").value;
-  const previewPx = sizeValue==="auto"
-    ? ({label1015:300,a4large:270,a4_2:250,a4_4:210,tape12:105,tape18:135}[printFormat] || 260)
-    : Math.max(90, Math.round(parseFloat(sizeValue)*55));
-
-  if(!content.trim()){
-    setStatus("Digite o conteúdo que deverá ficar dentro do QR Code.", "error");
-    $("qrContent").focus();
-    return;
-  }
-
-  $("qrcode").innerHTML="";
-  $("displayText").textContent=visible;
-  $("smallText").textContent=small;
-
-  try{
-    new QRCode($("qrcode"),{
-      text: content,
-      width:previewPx,
-      height:previewPx,
-      colorDark:"#000000",
-      colorLight:"#ffffff",
-      correctLevel:ecValue(ec)
-    });
-    current={content,visible,small,size:sizeValue,printFormat,ec};
-    setStatus("QR Code gerado no formato selecionado. Faça um teste de leitura antes de usar em escala.", "ok");
-  }catch(err){
-    console.error(err);
-    setStatus("Não foi possível gerar este QR Code. Verifique o conteúdo.", "error");
-  }
+if(!window.QRCode){
+setStatus("O gerador QR ainda está carregando. Aguarde e tente novamente.","error");
+return;
 }
 
-function saveCurrent(){
-  if(!current){generate();}
-  if(!current)return;
-  saved.unshift({...current,id:Date.now()});
-  localStorage.setItem("bruna_qr_labels",JSON.stringify(saved.slice(0,500)));
-  renderHistory();
-  setStatus("Etiqueta salva neste navegador.", "ok");
+const content=normalizeContent($("qrContent").value);
+const visible=$("displayTextInput").value.trim();
+const small=$("smallTextInput").value.trim();
+const format=$("printFormat").value;
+const size=$("size").value;
+const ec=ecValue($("ec").value);
+
+if(!content){
+setStatus("Digite o conteúdo do QR Code.","error");
+return;
+}
+
+current={
+id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),
+content,
+visible,
+small,
+printFormat:format,
+size,
+ec
+};
+
+$("qrcode").innerHTML="";
+renderCrispQr($("qrcode"),content,calculateMainQrPx(format,size),ec);
+$("displayText").textContent=visible;
+$("smallText").textContent=small;
+
+setPrintStatus("QR Code pronto para impressão.","ok");
+setStatus("QR Code gerado corretamente.","ok");
 }
 
 function formatName(v){
-  return ({
-    label1015:"10 × 15 cm",
-    a4large:"A4 — grande",
-    a4_2:"A4 — 2 por folha",
-    a4_4:"A4 — 4 por folha",
-    tape12:"Fita amarela 12 mm",
-    tape18:"Fita amarela 18 mm"
-  })[v] || v;
+const names={
+label1015:"Etiqueta 10 × 15 cm",
+a4large:"A4 grande",
+a4_2:"A4 — 2 por folha",
+a4_4:"A4 — 4 por folha",
+tape4:"Fita 4 mm",
+tape6:"Fita 6 mm",
+tape8:"Fita 8 mm",
+tape12:"Fita 12 mm",
+tape18:"Fita 18 mm",
+zebra2x1:'Zebra 2 × 1"',
+zebra2x2:'Zebra 2 × 2"',
+zebra3x2:'Zebra 3 × 2"',
+zebra3x3:'Zebra 3 × 3"',
+zebra4x2:'Zebra 4 × 2"',
+zebra4x3:'Zebra 4 × 3"',
+zebra4x4:'Zebra 4 × 4"'
+};
+return names[v]||v;
+}
+
+function calculateMainQrPx(format,size){
+const mmMap={
+label1015:76,
+a4large:120,
+a4_2:70,
+a4_4:58,
+tape4:2.6,
+tape6:4.4,
+tape8:6.2,
+tape12:10,
+tape18:15,
+zebra2x1:17,
+zebra2x2:40,
+zebra3x2:40,
+zebra3x3:60,
+zebra4x2:40,
+zebra4x3:60,
+zebra4x4:78
+};
+let mm=size==="auto"?mmMap[format]||50:Number(size)*10;
+if(format.startsWith("tape")){
+const h=Number(format.replace("tape",""));
+mm=Math.min(mm,h-1);
+}
+return Math.max(60,Math.round(mm*3.78));
+}
+
+function saveCurrent(){
+if(!current){
+setStatus("Gere um QR Code antes de salvar.","error");
+return;
+}
+try{
+saved.push({...current,savedAt:new Date().toISOString()});
+localStorage.setItem("bruna_qr_labels",JSON.stringify(saved));
+renderHistory();
+setStatus("Etiqueta salva com sucesso.","ok");
+}catch(e){
+setStatus("Não foi possível salvar a etiqueta.","error");
+}
 }
 
 function renderHistory(){
-  const body=$("historyBody");
-  body.innerHTML="";
-  if(!saved.length){
-    body.innerHTML='<tr><td colspan="5" style="text-align:center;color:#707b8a">Nenhuma etiqueta salva.</td></tr>';
-    return;
-  }
-
-  saved.forEach(item=>{
-    const tr=document.createElement("tr");
-    tr.innerHTML=`
-      <td><input type="checkbox" class="pick" data-id="${item.id}"></td>
-      <td><span class="tag">QR</span></td>
-      <td style="max-width:260px;word-break:break-word">${escapeHtml(item.content)}</td>
-      <td style="max-width:220px;word-break:break-word">${escapeHtml(item.visible || "")}</td>
-      <td>${escapeHtml(formatName(item.printFormat||"label1015"))}</td>
-      <td>
-        <div class="actions">
-          <button class="secondary" onclick="useSaved(${item.id})">Usar</button>
-          <button class="red" onclick="deleteSaved(${item.id})">Excluir</button>
-        </div>
-      </td>`;
-    body.appendChild(tr);
-  });
+const body=$("historyBody");
+if(!saved.length){
+body.innerHTML='<tr><td colspan="6" style="text-align:center">Nenhuma etiqueta salva.</td></tr>';
+return;
 }
 
-function escapeHtml(s){
-  return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+body.innerHTML=saved.map(item=>`
+<tr>
+<td><input class="pick" type="checkbox" data-id="${escapeHtml(item.id)}"></td>
+<td>${escapeHtml(item.content)}</td>
+<td>${escapeHtml(item.visible||"")}</td>
+<td>${escapeHtml(formatName(item.printFormat))}</td>
+<td>${escapeHtml(item.size==="auto"?"Automático":item.size+" cm")}</td>
+<td>
+<button class="secondary use-saved" data-id="${escapeHtml(item.id)}">Usar</button>
+<button class="red delete-saved" data-id="${escapeHtml(item.id)}">Excluir</button>
+</td>
+</tr>
+`).join("");
+
+body.querySelectorAll(".use-saved").forEach(btn=>{
+btn.addEventListener("click",()=>{
+const item=saved.find(x=>x.id===btn.dataset.id);
+if(!item)return;
+$("qrContent").value=item.content;
+$("displayTextInput").value=item.visible||"";
+$("smallTextInput").value=item.small||"";
+$("printFormat").value=item.printFormat||"label1015";
+$("size").value=item.size||"auto";
+$("ec").value=item.ec||"M";
+generate();
+window.scrollTo({top:0,behavior:"smooth"});
+});
+});
+
+body.querySelectorAll(".delete-saved").forEach(btn=>{
+btn.addEventListener("click",()=>{
+saved=saved.filter(x=>x.id!==btn.dataset.id);
+localStorage.setItem("bruna_qr_labels",JSON.stringify(saved));
+renderHistory();
+});
+});
 }
-
-window.useSaved=function(id){
-  const item=saved.find(x=>x.id===id);
-  if(!item)return;
-  $("qrContent").value=item.content;
-  $("displayTextInput").value=item.visible||"";
-  $("smallTextInput").value=item.small||"";
-  $("printFormat").value=item.printFormat||"label1015";
-  $("size").value=item.size||"auto";
-  $("ec").value=item.ec||"H";
-  generate();
-  window.scrollTo({top:0,behavior:"smooth"});
-};
-
-window.deleteSaved=function(id){
-  saved=saved.filter(x=>x.id!==id);
-  localStorage.setItem("bruna_qr_labels",JSON.stringify(saved));
-  renderHistory();
-};
 
 function getSelected(){
-  return [...document.querySelectorAll(".pick:checked")]
-    .map(x=>Number(x.dataset.id))
-    .map(id=>saved.find(x=>x.id===id))
-    .filter(Boolean);
+const ids=[...document.querySelectorAll(".pick:checked")].map(x=>x.dataset.id);
+return saved.filter(x=>ids.includes(x.id));
 }
 
 function printItems(items){
-  if(!items.length){
-    setStatus("Selecione pelo menos uma etiqueta.", "error");
-    return;
-  }
-
-  const w=window.open("","_blank");
-  if(!w){
-    setStatus("O navegador bloqueou a janela de impressão. Permita pop-ups para este site.", "error");
-    return;
-  }
-
-  const format = items[0].printFormat || $("printFormat").value || "label1015";
-  const isA4 = format.startsWith("a4");
-  const isTape = format.startsWith("tape");
-
-  // Para rotuladora, cada etiqueta fica em UMA única página.
-  // A altura da página acompanha a largura física da fita.
-  const layouts = {
-    label1015:{page:"100mm 150mm", label:"width:100mm;height:150mm;", qrMm:76},
-    a4large:{page:"A4", label:"width:178mm;height:265mm;", qrMm:120},
-    a4_2:{page:"A4", label:"width:90mm;height:135mm;", qrMm:70},
-    a4_4:{page:"A4", label:"width:90mm;height:135mm;", qrMm:58},
-
-    tape4:{page:"60mm 4mm", label:"width:60mm;height:4mm;", qrMm:3, tapeHeight:4},
-    tape6:{page:"60mm 6mm", label:"width:60mm;height:6mm;", qrMm:5, tapeHeight:6},
-    tape8:{page:"60mm 8mm", label:"width:60mm;height:8mm;", qrMm:7, tapeHeight:8},
-    tape12:{page:"60mm 12mm", label:"width:60mm;height:12mm;", qrMm:10, tapeHeight:12},
-    tape18:{page:"60mm 18mm", label:"width:60mm;height:18mm;", qrMm:15, tapeHeight:18}
-  };
-
-  const L=layouts[format]||layouts.label1015;
-
-  function selectedQrMm(item){
-    const v=item.size;
-    if(v && v!=="auto"){
-      const n=parseFloat(v);
-      if(Number.isFinite(n)){
-        if(isTape) return Math.min(n*10, L.tapeHeight-1);
-        return n*10;
-      }
-    }
-    return L.qrMm;
-  }
-
-  const pageCSS = isA4
-    ? "@page{size:A4 portrait;margin:6mm}"
-    : `@page{size:${L.page};margin:0}`;
-
-  let sheetStyle="display:flex;flex-wrap:wrap;align-items:flex-start;";
-  let labelStyle=L.label;
-
-  if(format==="a4_2"){
-    sheetStyle="display:grid;grid-template-columns:90mm 90mm;grid-template-rows:135mm;gap:6mm;align-items:start;justify-content:center;";
-    labelStyle="width:90mm;height:135mm;box-sizing:border-box;";
-  }else if(format==="a4_4"){
-    sheetStyle="display:grid;grid-template-columns:90mm 90mm;grid-template-rows:135mm 135mm;gap:6mm;align-items:start;justify-content:center;";
-    labelStyle="width:90mm;height:135mm;box-sizing:border-box;";
-  }else if(format==="a4large"){
-    sheetStyle="display:flex;align-items:center;justify-content:center;width:100%;height:285mm;";
-    labelStyle="width:178mm;height:265mm;box-sizing:border-box;";
-  }else if(isTape){
-    // Uma etiqueta por página, horizontal, sem elementos escapando da altura da fita.
-    sheetStyle="display:block;width:60mm;";
-    labelStyle=`width:60mm;height:${L.tapeHeight}mm;box-sizing:border-box;overflow:hidden;`;
-  }
-
-  const textStyle=isTape
-    ? `font-size:${format==="tape4"?"2.5pt":format==="tape6"?"4pt":format==="tape8"?"5pt":format==="tape12"?"7pt":"9pt"};max-width:45mm;`
-    : `font-size:${format==="a4large"?"22pt":"16pt"};max-width:${format==="a4large"?"160mm":"82mm"};`;
-
-  let printList=items.slice();
-
-  if(format==="a4_2" && printList.length===1)
-    printList=[{...printList[0]},{...printList[0]}];
-
-  if(format==="a4_4" && printList.length===1)
-    printList=[{...printList[0]},{...printList[0]},{...printList[0]},{...printList[0]}];
-
-  const totalSlots=format==="a4_4"?4:format==="a4_2"?2:Infinity;
-  printList=printList.slice(0,totalSlots);
-  const itemsJson=JSON.stringify(printList);
-
-  w.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">
-  <title>Etiquetas QR — Bruna Camilo</title>
-  <style>
-    ${pageCSS}
-    html,body{margin:0;padding:0;background:#fff}
-    body{font-family:Arial,sans-serif}
-    .sheet{${sheetStyle}}
-    .label{
-      display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
-      break-inside:avoid;page-break-inside:avoid;
-      padding:${isTape?"0":"4mm"};${labelStyle}
-    }
-    .qr{background:#fff;padding:${isTape?"0":"3mm"};box-sizing:content-box;flex:0 0 auto}
-    .qr canvas,.qr img{display:block;max-width:none!important}
-    .main{
-      font-weight:800;text-align:center;word-break:break-word;${textStyle}
-    }
-    .small{
-      font-size:${format==="tape4"?"2pt":format==="tape6"?"3pt":format==="tape8"?"4pt":isTape?"5pt":"9pt"};
-      color:#555;text-align:center;word-break:break-word;max-width:45mm
-    }
-
-    ${isTape ? `
-    .label{
-      flex-direction:row;
-      align-items:center;
-      justify-content:flex-start;
-      gap:1mm;
-      white-space:nowrap;
-    }
-    .textBox{
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      min-width:0;
-      overflow:hidden;
-      line-height:1;
-    }
-    .main{text-align:left;overflow:hidden}
-    .small{text-align:left;margin-top:.5mm;overflow:hidden}
-    ` : ""}
-
-    @media print{
-      html,body{margin:0!important;padding:0!important;overflow:hidden!important}
-      .sheet{margin:0!important;padding:0!important}
-      .label{break-inside:avoid!important;page-break-inside:avoid!important}
-    }
-  </style></head><body><div class="sheet" id="sheet"></div>
-  <script src="${LIB_URLS[0]}"><\/script>
-  <script>
-  const items=${itemsJson};
-  const sheet=document.getElementById("sheet");
-  const ecMap={M:QRCode.CorrectLevel.M,Q:QRCode.CorrectLevel.Q,H:QRCode.CorrectLevel.H};
-
-  items.forEach(item=>{
-    const label=document.createElement("div");
-    label.className="label";
-
-    const qr=document.createElement("div");
-    qr.className="qr";
-    label.appendChild(qr);
-
-    const textBox=document.createElement("div");
-    textBox.className="textBox";
-
-    const main=document.createElement("div");
-    main.className="main";
-    main.textContent=item.visible||"";
-    textBox.appendChild(main);
-
-    const small=document.createElement("div");
-    small.className="small";
-    small.textContent=item.small||"";
-    textBox.appendChild(small);
-
-    if(${isTape ? "true" : "false"}){
-      label.appendChild(textBox);
-    }else{
-      label.appendChild(main);
-      label.appendChild(small);
-    }
-
-    sheet.appendChild(label);
-
-    let n=${isTape ? JSON.stringify(L.qrMm/10) : "null"};
-    if(item.size && item.size!=="auto"){
-      const chosen=parseFloat(item.size);
-      if(Number.isFinite(chosen)) n=chosen;
-    }
-
-    let mm=${isTape ? "Math.min(n*10," + (L.tapeHeight-1) + ")" : "n*10"};
-    if(!Number.isFinite(mm) || mm<=0) mm=${L.qrMm};
-
-    const px=Math.max(90,Math.round(mm*3.78));
-
-    new QRCode(qr,{
-      text:item.content,
-      width:px,
-      height:px,
-      colorDark:"#000000",
-      colorLight:"#ffffff",
-      correctLevel:ecMap[item.ec||"H"]
-    });
-
-    setTimeout(()=>{
-      qr.style.width=mm+"mm";
-      qr.style.height=mm+"mm";
-      qr.querySelectorAll("canvas,img").forEach(node=>{
-        node.style.width=mm+"mm";
-        node.style.height=mm+"mm";
-      });
-    },50);
-  });
-
-  setTimeout(()=>window.print(),1400);
-  <\/script>
-  </body></html>`);
-
-  w.document.close();
+if(!items.length){
+setStatus("Selecione pelo menos uma etiqueta.","error");
+return;
 }
 
-$("downloadQrBtn").addEventListener("click",downloadCurrentQr);
-$("notebookPrintBtn").addEventListener("click",printOnNotebook);
-$("ipPrintBtn").addEventListener("click",sendToPrinterByIp);
-$("meliBtn").addEventListener("click",sendToMeli);
+if(!window.QRCode){
+setStatus("Biblioteca QR ainda não carregada.","error");
+return;
+}
 
-$("generateBtn").addEventListener("click",generate);
-$("saveBtn").addEventListener("click",saveCurrent);
-$("printBtn").addEventListener("click",printOnNotebook);
+const format=items[0].printFormat||"label1015";
+const layouts={
+label1015:{page:"100mm 150mm",qrMm:76},
+a4large:{page:"A4",qrMm:120},
+a4_2:{page:"A4",qrMm:70},
+a4_4:{page:"A4",qrMm:58},
+tape4:{page:"60mm 4mm",qrMm:2.6,tapeHeight:4},
+tape6:{page:"60mm 6mm",qrMm:4.4,tapeHeight:6},
+tape8:{page:"60mm 8mm",qrMm:6.2,tapeHeight:8},
+tape12:{page:"60mm 12mm",qrMm:10,tapeHeight:12},
+tape18:{page:"60mm 18mm",qrMm:15,tapeHeight:18},
+zebra2x1:{page:"50.8mm 25.4mm",qrMm:17},
+zebra2x2:{page:"50.8mm 50.8mm",qrMm:40},
+zebra3x2:{page:"76.2mm 50.8mm",qrMm:40},
+zebra3x3:{page:"76.2mm 76.2mm",qrMm:60},
+zebra4x2:{page:"101.6mm 50.8mm",qrMm:40},
+zebra4x3:{page:"101.6mm 76.2mm",qrMm:60},
+zebra4x4:{page:"101.6mm 101.6mm",qrMm:78}
+};
 
-$("clearBtn").addEventListener("click",()=>{
-  $("qrContent").value="";
-  $("displayTextInput").value="";
-  $("smallTextInput").value="";
-  $("printFormat").value="label1015";
-  $("size").value="auto";
-  $("ec").value="H";
-  $("qrcode").innerHTML="";
-  $("displayText").textContent="";
-  $("smallText").textContent="";
-  current=null;
-  $("printerIp").value="";
-  $("meliInventory").value="";
-  setPrintStatus("Gere um QR Code para habilitar as opções de impressão.");
-  setStatus("Campos limpos.");
+const L=layouts[format]||layouts.label1015;
+const isA4=format.startsWith("a4");
+const isTape=format.startsWith("tape");
+const isZebra=format.startsWith("zebra");
+
+const rendered=[];
+
+for(const item of items){
+const holder=document.createElement("div");
+holder.style.position="fixed";
+holder.style.left="-10000px";
+holder.style.top="-10000px";
+document.body.appendChild(holder);
+
+let qrMm=item.size&&item.size!=="auto"&&!Number.isNaN(parseFloat(item.size))
+?parseFloat(item.size)*10:L.qrMm;
+
+if(isTape)qrMm=Math.min(qrMm,L.tapeHeight-1);
+
+const px=Math.max(90,Math.round(qrMm*3.78));
+renderCrispQr(holder,item.content,px,ecValue(item.ec||"M"));
+
+const canvas=holder.querySelector("canvas");
+const dataUrl=canvas?canvas.toDataURL("image/png"):null;
+holder.remove();
+
+if(dataUrl)rendered.push({...item,dataUrl,qrMm});
+}
+
+const w=window.open("","_blank");
+
+if(!w){
+setStatus("O navegador bloqueou a janela de impressão. Permita pop-ups.","error");
+return;
+}
+
+let pageCSS=isA4?"@page{size:A4 portrait;margin:6mm}":`@page{size:${L.page};margin:0}`;
+let sheetStyle="display:flex;flex-wrap:wrap;align-items:flex-start;";
+let labelStyle="";
+
+if(format==="a4_2"){
+sheetStyle="display:grid;grid-template-columns:90mm 90mm;grid-template-rows:135mm;gap:6mm;align-items:start;justify-content:center;";
+labelStyle="width:90mm;height:135mm;";
+}else if(format==="a4_4"){
+sheetStyle="display:grid;grid-template-columns:90mm 90mm;grid-template-rows:135mm 135mm;gap:6mm;align-items:start;justify-content:center;";
+labelStyle="width:90mm;height:135mm;";
+}else if(format==="a4large"){
+sheetStyle="display:flex;align-items:center;justify-content:center;width:100%;height:285mm;";
+labelStyle="width:178mm;height:265mm;";
+}else if(isTape){
+sheetStyle="display:block;width:60mm;";
+labelStyle=`width:60mm;height:${L.tapeHeight}mm;`;
+}else if(isZebra){
+const [pw,ph]=L.page.split(" ");
+sheetStyle=`display:flex;align-items:flex-start;justify-content:center;width:${pw};height:${ph};`;
+labelStyle=`width:${pw};height:${ph};`;
+}else{
+labelStyle="width:100mm;height:150mm;";
+}
+
+const htmlLabels=rendered.map(item=>`
+<div class="label">
+<div class="qr"><img src="${item.dataUrl}" style="width:${item.qrMm}mm;height:${item.qrMm}mm"></div>
+<div class="main">${escapeHtml(item.visible||"")}</div>
+<div class="small">${escapeHtml(item.small||"")}</div>
+</div>
+`).join("");
+
+w.document.write(`<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Etiquetas QR — Bruna Camilo</title>
+<style>
+${pageCSS}
+html,body{margin:0;padding:0;background:#fff}
+body{font-family:Arial,sans-serif}
+.sheet{${sheetStyle}}
+.label{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:flex-start;
+break-inside:avoid;
+page-break-inside:avoid;
+box-sizing:border-box;
+overflow:hidden;
+padding:${isTape?"0":"4mm"};
+${labelStyle}
+}
+.qr{background:#fff;padding:${isTape?"0":"3mm"};box-sizing:content-box;flex:0 0 auto}
+.qr img{display:block;image-rendering:pixelated}
+.main{font-weight:800;text-align:center;word-break:break-word;font-size:${isTape?"7pt":isZebra?"10pt":"16pt"};line-height:1.1;max-width:95%}
+.small{font-size:${isTape?"5pt":isZebra?"8pt":"9pt"};color:#555;text-align:center;word-break:break-word;max-width:95%;margin-top:1mm}
+${isTape?".label{flex-direction:row;align-items:center;gap:1mm;white-space:nowrap}.main{text-align:left;overflow:hidden}.small{text-align:left;margin-top:.5mm;overflow:hidden}":""}
+@media print{html,body{margin:0!important;padding:0!important;overflow:hidden!important}.label{break-inside:avoid!important;page-break-inside:avoid!important}}
+</style>
+</head>
+<body>
+<div class="sheet">${htmlLabels}</div>
+<script>setTimeout(()=>window.print(),500)<\/script>
+</body>
+</html>`);
+
+w.document.close();
+}
+
+function pageMm(type){
+const pages={
+label1015:{w:100,h:150,kind:"sheet"},
+a4large:{w:210,h:297,kind:"sheet"},
+a4_2:{w:210,h:297,kind:"sheet"},
+a4_4:{w:210,h:297,kind:"sheet"},
+tape4:{w:60,h:4,kind:"tape"},
+tape6:{w:60,h:6,kind:"tape"},
+tape8:{w:60,h:8,kind:"tape"},
+tape12:{w:60,h:12,kind:"tape"},
+tape18:{w:60,h:18,kind:"tape"},
+zebra2x1:{w:50.8,h:25.4,kind:"zebra"},
+zebra2x2:{w:50.8,h:50.8,kind:"zebra"},
+zebra3x2:{w:76.2,h:50.8,kind:"zebra"},
+zebra3x3:{w:76.2,h:76.2,kind:"zebra"},
+zebra4x2:{w:101.6,h:50.8,kind:"zebra"},
+zebra4x3:{w:101.6,h:76.2,kind:"zebra"},
+zebra4x4:{w:101.6,h:101.6,kind:"zebra"}
+};
+return pages[type]||pages.label1015;
+}
+
+function multiSizeMm(sizeValue,pageType){
+if(sizeValue==="auto"){
+const p=pageMm(pageType);
+return Math.min(30,Math.max(5,Math.min(p.w,p.h)*.7));
+}
+return Number(sizeValue)*10;
+}
+
+function getRowsMultiQrList(){
+return [...document.querySelectorAll(".multi-row")].map(row=>{
+const inputs=row.querySelectorAll("input");
+return{
+content:normalizeContent(inputs[0]?.value),
+label:(inputs[1]?.value||"").trim()
+};
+}).filter(x=>x.content);
+}
+
+function addMultiRow(content="",label=""){
+const wrap=$("multiRows");
+const row=document.createElement("div");
+row.className="multi-row";
+
+const n=wrap.children.length+1;
+
+row.innerHTML=`
+<div class="row-num">QR ${n}</div>
+<input type="text" class="multi-content" placeholder="Conteúdo do QR" value="${escapeHtml(content)}">
+<input type="text" class="multi-label" placeholder="Texto abaixo" value="${escapeHtml(label)}">
+<button type="button" class="red remove-multi">✕</button>
+`;
+
+row.querySelector(".remove-multi").addEventListener("click",()=>{
+row.remove();
+[...wrap.children].forEach((r,i)=>{
+const n=r.querySelector(".row-num");
+if(n)n.textContent="QR "+(i+1);
+});
 });
 
-$("selectAllBtn").addEventListener("click",()=>{
-  const boxes=[...document.querySelectorAll(".pick")];
-  const all=boxes.length && boxes.every(x=>x.checked);
-  boxes.forEach(x=>x.checked=!all);
-});
+wrap.appendChild(row);
+}
 
-$("printSelectedBtn").addEventListener("click",()=>printItems(getSelected()));
+function parseMultiQrList(){
+const rows=getRowsMultiQrList();
+const pasted=$("multiQrList").value.trim();
 
-$("deleteSelectedBtn").addEventListener("click",()=>{
-  const ids=new Set(getSelected().map(x=>x.id));
-  if(!ids.size){setStatus("Selecione pelo menos uma etiqueta para excluir.","error");return;}
-  saved=saved.filter(x=>!ids.has(x.id));
-  localStorage.setItem("bruna_qr_labels",JSON.stringify(saved));
-  renderHistory();
-});
+if(rows.length)return rows;
 
-$("clearHistoryBtn").addEventListener("click",()=>{
-  if(!saved.length)return;
-  if(confirm("Apagar todas as etiquetas salvas neste navegador?")){
-    saved=[];
-    localStorage.removeItem("bruna_qr_labels");
-    renderHistory();
-  }
-});
+if(!pasted)return[];
 
-$("qrContent").addEventListener("keydown",e=>{
-  if(e.ctrlKey && e.key==="Enter")generate();
-});
+return pasted.split(/\r?\n/)
+.map(line=>line.trim())
+.filter(Boolean)
+.map(line=>{
+const parts=line.split(";");
+return{
+content:normalizeContent(parts[0]),
+label:(parts.slice(1).join(";")||"").trim()
+};
+})
+.filter(x=>x.content);
+}
+
+function itemLabelExtraMm(items,sizeMm){
+return items.some(x=>x.label)?6:0;
+}
+
+function renderMultiQrPages(){
+const items=parseMultiQrList();
+
+if(!items.length){
+$("multiQrStatus").textContent="Adicione pelo menos um QR Code.";
+$("multiQrStatus").className="status print-error";
+return null;
+}
+
+if(!window.QRCode){
+$("multiQrStatus").textContent="Biblioteca QR ainda não carregada.";
+$("multiQrStatus").className="status print-error";
+return null;
+}
+
+const pageType=$("multiQrPage").value;
+const page=pageMm(pageType);
+const gapMm=Number($("multiQrGap").value||3);
+const forcedCols=$("multiQrCols").value;
+const requestedRows=$("multiQrRows").value||"auto";
+const sizeValue=$("multiQrSize").value;
+const ec=ecValue($("multiQrEc").value);
+
+let sizeMm=multiSizeMm(sizeValue,pageType);
+
+const labelExtra=itemLabelExtraMm(items,sizeMm);
+const rowHeight=sizeMm+labelExtra;
+
+const usableW=page.w;
+const usableH=page.h;
+
+const autoCols=Math.max(
+1,
+Math.floor((usableW+gapMm)/(sizeMm+gapMm))
+);
+
+const requestedCols=
+forcedCols==="auto"
+?autoCols
+:Number(forcedCols);
+
+let cols=Math.max(
+1,
+Math.min(requestedCols,autoCols)
+);
+
+const autoRows=Math.max(
+1,
+Math.floor((usableH+gapMm)/(rowHeight+gapMm))
+);
+
+let rows=
+requestedRows==="auto"
+?autoRows
+:Math.max(1,Number(requestedRows));
+
+if(page.kind==="tape"){
+const maxRows=Math.max(
+1,
+Math.floor((usableH+gapMm)/(rowHeight+gapMm))
+);
+
+if(requestedRows==="auto"){
+rows=maxRows;
+}else{
+rows=Math.max(1,Number(requestedRows));
+}
+}
+
+if(page.kind==="zebra"){
+cols=Math.max(
+1,
+Math.min(cols,Math.floor((page.w+gapMm)/(sizeMm+gapMm)))
+);
+}
+
+const perPage=Math.max(1,cols*rows);
+const pages=Math.ceil(items.length/perPage);
+
+const area=$("multiPrintArea");
+area.innerHTML="";
+area.style.display="block";
+
+const pagesWrap=document.createElement("div");
+pagesWrap.className="multi-pages";
+
+for(let p=0;p<pages;p++){
+
+const pageEl=document.createElement("div");
+pageEl.className="multi-page";
+
+let currentRows=rows;
+
+if(p===pages-1){
+const remaining=items.length-p*perPage;
+currentRows=Math.max(1,Math.ceil(remaining/cols));
+}
+
+let pageHeight=page.h;
+
+if(page.kind==="tape"){
+pageHeight=
+currentRows*rowHeight+
+Math.max(0,currentRows-1)*gapMm;
+}
+
+pageEl.style.width=page.w+"mm";
+pageEl.style.height=pageHeight+"mm";
+pageEl.style.minHeight=pageHeight+"mm";
+
+pageEl.style.gridTemplateColumns=
+`repeat(${cols}, ${sizeMm}mm)`;
+
+pageEl.style.gridTemplateRows=
+`repeat(${currentRows}, ${rowHeight}mm)`;
+
+pageEl.style.gridAutoRows=rowHeight+"mm";
+pageEl.style.gap=gapMm+"mm";
+
+pageEl.style.placeContent=
+page.kind==="tape"||page.kind==="zebra"
+?"center"
+:"start center";
+
+const start=p*perPage;
+const end=Math.min(start+perPage,items.length);
+
+for(let i=start;i<end;i++){
+
+const item=items[i];
+
+const itemEl=document.createElement("div");
+itemEl.className="multi-item";
+itemEl.style.width=sizeMm+"mm";
+itemEl.style.height=rowHeight+"mm";
+
+const qrHolder=document.createElement("div");
+qrHolder.style.width=sizeMm+"mm";
+qrHolder.style.height=sizeMm+"mm";
+qrHolder.style.display="flex";
+qrHolder.style.alignItems="center";
+qrHolder.style.justifyContent="center";
+
+const px=Math.max(
+40,
+Math.round(sizeMm*3.779527559)
+);
+
+renderCrispQr(
+qrHolder,
+item.content,
+px,
+ec
+);
+
+const canvas=qrHolder.querySelector("canvas");
+
+if(canvas){
+canvas.style.width=sizeMm+"mm";
+canvas.style.height=sizeMm+"mm";
+canvas.style.imageRendering="pixelated";
+canvas.style.imageRendering="crisp-edges";
+}
+
+itemEl.appendChild(qrHolder);
+
+if(item.label){
+const label=document.createElement("div");
+label.className="multi-label";
+label.style.width=sizeMm+"mm";
+label.textContent=item.label;
+itemEl.appendChild(label);
+}
+
+pageEl.appendChild(itemEl);
+}
+
+pagesWrap.appendChild(pageEl);
+}
+
+area.appendChild(pagesWrap);
+
+$("multiQrStatus").textContent=
+`✅ ${items.length} QR Code(s) • ${formatName(pageType)} • ${cols} coluna(s) × ${rows} fileira(s) • ${perPage} por página • ${pages} página(s) • QR ${sizeMm/10} cm.`;
+
+$("multiQrStatus").className="status print-ok";
+
+return area;
+}
+
+function previewMultiQr(){
+const area=renderMultiQrPages();
+if(!area)return;
+area.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function printMultiQr(){
+const area=renderMultiQrPages();
+if(!area)return;
+
+const firstPage=area.querySelector(".multi-page");
+
+const pageW=parseFloat(
+firstPage?.style.width||"210"
+);
+
+const pageH=parseFloat(
+firstPage?.style.height||"297"
+);
+
+const printStyle=document.createElement("style");
+
+printStyle.id="multiDynamicPrintStyle";
+
+printStyle.textContent=`
+@media print{
+@page{
+size:${pageW}mm ${pageH}mm;
+margin:0
+}
+
+html,body{
+margin:0!important;
+padding:0!important;
+background:#fff!important
+}
+
+body.multi-printing #multiPrintArea{
+width:${pageW}mm!important;
+margin:0!important;
+padding:0!important
+}
+
+body.multi-printing .multi-page{
+width:${pageW}mm!important;
+height:${pageH}mm!important;
+min-height:${pageH}mm!important;
+margin:0!important
+}
+}
+`;
+
+document.head.appendChild(printStyle);
+
+document.body.classList.add("multi-printing");
+
+setTimeout(()=>{
+window.print();
+
+setTimeout(()=>{
+document.body.classList.remove("multi-printing");
+printStyle.remove();
+},1000);
+
+},150);
+}
+
+function clearMultiQr(){
+$("multiRows").innerHTML="";
+$("multiQrList").value="";
+addMultiRow();
+addMultiRow();
+addMultiRow();
+
+$("multiQrStatus").textContent=
+"Lista limpa. Adicione os QR Codes.";
+
+$("multiQrStatus").className="status";
+}
+
+function exportSaved(){
+const blob=new Blob(
+[JSON.stringify(saved,null,2)],
+{type:"application/json"}
+);
+
+const a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="etiquetas_qr_bruna_camilo.json";
+a.click();
+
+setTimeout(()=>{
+URL.revokeObjectURL(a.href);
+},1000);
+}
+
+function importSavedFile(file){
+if(!file)return;
+
+const reader=new FileReader();
+
+reader.onload=()=>{
+try{
+const data=JSON.parse(reader.result);
+
+if(!Array.isArray(data))
+throw new Error("Formato inválido");
+
+saved=[
+...saved,
+...data
+];
+
+localStorage.setItem(
+"bruna_qr_labels",
+JSON.stringify(saved)
+);
 
 renderHistory();
 
-loadScript(LIB_URLS).then(()=>{
-  setStatus("Gerador QR carregado corretamente. Pronto para criar etiquetas.", "ok");
-}).catch(()=>{
-  setStatus("Não foi possível carregar a biblioteca QR. Verifique a internet e recarregue a página.", "error");
+setStatus(
+`${data.length} etiqueta(s) importada(s).`,
+"ok"
+);
+
+}catch(e){
+setStatus(
+"Arquivo JSON inválido.",
+"error"
+);
+}
+};
+
+reader.readAsText(file);
+}
+
+function downloadCurrentQr(){
+if(!current){
+setStatus("Gere um QR Code primeiro.","error");
+return;
+}
+
+const holder=document.createElement("div");
+holder.style.position="fixed";
+holder.style.left="-10000px";
+holder.style.top="-10000px";
+document.body.appendChild(holder);
+
+renderCrispQr(
+holder,
+current.content,
+calculateMainQrPx(
+current.printFormat,
+current.size
+),
+current.ec
+);
+
+const canvas=holder.querySelector("canvas");
+
+if(!canvas){
+holder.remove();
+setStatus("Não foi possível gerar a imagem.","error");
+return;
+}
+
+const a=document.createElement("a");
+a.href=canvas.toDataURL("image/png");
+a.download=safeFileName(current.visible||current.content)+".png";
+a.click();
+
+holder.remove();
+}
+
+function printOnNotebook(){
+if(!current){
+setStatus("Gere um QR Code primeiro.","error");
+return;
+}
+
+const holder=document.createElement("div");
+
+holder.style.position="fixed";
+holder.style.left="-10000px";
+holder.style.top="-10000px";
+
+document.body.appendChild(holder);
+
+renderCrispQr(
+holder,
+current.content,
+calculateMainQrPx(
+current.printFormat,
+current.size
+),
+current.ec
+);
+
+const canvas=holder.querySelector("canvas");
+
+if(!canvas){
+holder.remove();
+setStatus("Não foi possível preparar a impressão.","error");
+return;
+}
+
+const dataUrl=canvas.toDataURL("image/png");
+holder.remove();
+
+const w=window.open("","_blank");
+
+if(!w){
+setStatus("Permita pop-ups para imprimir.","error");
+return;
+}
+
+const format=current.printFormat;
+const isTape=format.startsWith("tape");
+const isZebra=format.startsWith("zebra");
+
+const dimensions={
+label1015:["100mm","150mm"],
+a4large:["210mm","297mm"],
+a4_2:["210mm","297mm"],
+a4_4:["210mm","297mm"],
+tape4:["60mm","4mm"],
+tape6:["60mm","6mm"],
+tape8:["60mm","8mm"],
+tape12:["60mm","12mm"],
+tape18:["60mm","18mm"],
+zebra2x1:["50.8mm","25.4mm"],
+zebra2x2:["50.8mm","50.8mm"],
+zebra3x2:["76.2mm","50.8mm"],
+zebra3x3:["76.2mm","76.2mm"],
+zebra4x2:["101.6mm","50.8mm"],
+zebra4x3:["101.6mm","76.2mm"],
+zebra4x4:["101.6mm","101.6mm"]
+};
+
+const d=dimensions[format]||dimensions.label1015;
+
+w.document.write(`
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>QR Code — Bruna Camilo</title>
+<style>
+@page{
+size:${d[0]} ${d[1]};
+margin:0
+}
+
+html,body{
+margin:0;
+padding:0;
+background:#fff
+}
+
+body{
+font-family:Arial,sans-serif
+}
+
+.label{
+width:${d[0]};
+height:${d[1]};
+box-sizing:border-box;
+display:flex;
+flex-direction:${isTape?"row":"column"};
+align-items:center;
+justify-content:flex-start;
+padding:${isTape?"0":"4mm"};
+gap:${isTape?"1mm":"0"};
+overflow:hidden
+}
+
+.qr{
+display:flex;
+align-items:center;
+justify-content:center;
+flex:0 0 auto;
+padding:${isTape?"0":"3mm"}
+}
+
+.qr img{
+display:block;
+image-rendering:pixelated
+}
+
+.main{
+font-weight:800;
+font-size:${isTape?"7pt":isZebra?"10pt":"16pt"};
+line-height:1.1;
+text-align:${isTape?"left":"center"};
+max-width:95%;
+word-break:break-word
+}
+
+.small{
+font-size:${isTape?"5pt":isZebra?"8pt":"9pt"};
+color:#555;
+text-align:${isTape?"left":"center"};
+max-width:95%;
+margin-top:1mm
+}
+
+.text{
+display:flex;
+flex-direction:column;
+justify-content:center;
+min-width:0;
+overflow:hidden
+}
+</style>
+</head>
+
+<body>
+
+<div class="label">
+
+<div class="qr">
+<img src="${dataUrl}" style="width:${calculateMainQrPx(format,current.size)/3.779527559}mm;height:${calculateMainQrPx(format,current.size)/3.779527559}mm">
+</div>
+
+<div class="text">
+<div class="main">${escapeHtml(current.visible||"")}</div>
+<div class="small">${escapeHtml(current.small||"")}</div>
+</div>
+
+</div>
+
+<script>
+setTimeout(()=>window.print(),400);
+<\/script>
+
+</body>
+</html>
+`);
+
+w.document.close();
+}
+
+function getZplSettings(){
+const format=current?.printFormat||"zebra4x3";
+
+const profiles={
+zebra2x1:{pw:406,ll:203,qrX:130,qrY:25,module:4,textY:175},
+zebra2x2:{pw:406,ll:406,qrX:50,qrY:25,module:7,textY:330},
+zebra3x2:{pw:609,ll:406,qrX:140,qrY:25,module:7,textY:330},
+zebra3x3:{pw:609,ll:609,qrX:100,qrY:25,module:9,textY:520},
+zebra4x2:{pw:812,ll:406,qrX:220,qrY:25,module:7,textY:330},
+zebra4x3:{pw:812,ll:609,qrX:220,qrY:25,module:9,textY:520},
+zebra4x4:{pw:812,ll:812,qrX:150,qrY:25,module:11,textY:710},
+tape4:{pw:480,ll:32,qrX:12,qrY:3,module:2,textY:8},
+tape6:{pw:480,ll:48,qrX:12,qrY:3,module:3,textY:20},
+tape8:{pw:480,ll:64,qrX:12,qrY:3,module:4,textY:30},
+tape12:{pw:480,ll:96,qrX:12,qrY:5,module:5,textY:55},
+tape18:{pw:480,ll:144,qrX:12,qrY:8,module:7,textY:100}
+};
+
+return profiles[format]||profiles.zebra4x3;
+}
+
+function zplSafe(v){
+return String(v??"")
+.replace(/\^/g," ")
+.replace(/~/g," ");
+}
+
+function buildQrZpl(customContent=null,customVisible=null){
+if(!current)return"";
+
+const s=getZplSettings();
+
+const content=zplSafe(
+customContent===null
+?current.content
+:customContent
+).trim();
+
+const visible=zplSafe(
+customVisible===null
+?(current.visible||"")
+:customVisible
+);
+
+const small=zplSafe(
+customContent===null
+?(current.small||"")
+:""
+);
+
+return `^XA
+^CI28
+^PW${s.pw}
+^LL${s.ll}
+^LH0,0
+^FO${s.qrX},${s.qrY}^BQN,2,${s.module}^FDLA,${content}^FS
+${visible?`^FO20,${s.textY}^A0N,34,34^FB${s.pw-40},1,0,C^FD${visible}^FS`:""}
+${small?`^FO20,${s.textY+48}^A0N,20,20^FB${s.pw-40},1,0,C^FD${small}^FS`:""}
+^PQ1,0,1,N
+^XZ`;
+}
+
+function downloadCurrentZpl(){
+if(!current){
+setPrintStatus("Gere um QR Code primeiro.","error");
+return;
+}
+
+const blob=new Blob(
+[buildQrZpl()],
+{type:"text/plain;charset=utf-8"}
+);
+
+const a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download=safeFileName(current.visible||current.content)+".zpl";
+a.click();
+
+setTimeout(()=>{
+URL.revokeObjectURL(a.href);
+},1000);
+}
+
+async function copyCurrentZpl(){
+if(!current){
+setPrintStatus("Gere um QR Code primeiro.","error");
+return;
+}
+
+const zpl=buildQrZpl();
+
+try{
+await navigator.clipboard.writeText(zpl);
+setPrintStatus("ZPL copiado para a área de transferência.","ok");
+}catch(e){
+setPrintStatus("Não foi possível copiar o ZPL.","error");
+}
+}
+
+async function sendToPrinterByIp(){
+if(!current){
+setPrintStatus("Gere um QR Code primeiro.","error");
+return;
+}
+
+const ip=$("printerIp").value.trim();
+
+if(!ip){
+setPrintStatus("Digite o IP da impressora.","error");
+return;
+}
+
+localStorage.setItem("bruna_printer_ip",ip);
+
+const mode=$("printerMode").value;
+
+if(mode==="zpl-file"){
+downloadCurrentZpl();
+setPrintStatus(
+"Arquivo ZPL gerado. Envie-o pelo fluxo RAW/9100 do notebook.",
+"ok"
+);
+return;
+}
+
+const zpl=buildQrZpl();
+
+try{
+await fetch(
+"http://"+ip+"/pstprnt",
+{
+method:"POST",
+mode:"no-cors",
+cache:"no-store",
+headers:{
+"Content-Type":"text/plain;charset=UTF-8"
+},
+body:zpl
+}
+);
+
+setPrintStatus(
+"Solicitação enviada para a impressora. O navegador não consegue confirmar o status do HTTP por causa do modo no-cors.",
+"ok"
+);
+
+}catch(e){
+setPrintStatus(
+"Não foi possível enviar para o IP. Verifique IP, rede e endpoint /pstprnt.",
+"error"
+);
+}
+}
+
+async function testPrinterByIp(){
+const ip=$("printerIp").value.trim();
+
+if(!ip){
+setPrintStatus("Digite o IP da impressora.","error");
+return;
+}
+
+localStorage.setItem("bruna_printer_ip",ip);
+
+try{
+await fetch(
+"http://"+ip+"/pstprnt",
+{
+method:"POST",
+mode:"no-cors",
+cache:"no-store",
+headers:{
+"Content-Type":"text/plain;charset=UTF-8"
+},
+body:"^XA^XZ"
+}
+);
+
+setPrintStatus(
+"Requisição de teste enviada. O navegador não consegue confirmar o status HTTP.",
+"ok"
+);
+
+}catch(e){
+setPrintStatus(
+"Falha na requisição. Verifique IP e rede.",
+"error"
+);
+}
+}
+
+$("generateBtn").addEventListener("click",generate);
+$("saveBtn").addEventListener("click",saveCurrent);
+$("downloadQrBtn").addEventListener("click",downloadCurrentQr);
+$("printBtn").addEventListener("click",printOnNotebook);
+$("notebookPrintBtn")?.addEventListener("click",printOnNotebook);
+$("ipPrintBtn").addEventListener("click",sendToPrinterByIp);
+$("ipTestBtn").addEventListener("click",testPrinterByIp);
+$("downloadZplBtn").addEventListener("click",downloadCurrentZpl);
+$("copyZplBtn").addEventListener("click",copyCurrentZpl);
+
+$("printerMode")?.addEventListener("change",()=>{
+const mode=$("printerMode").value;
+
+localStorage.setItem(
+"bruna_printer_mode",
+mode
+);
+
+setPrintStatus(
+mode==="zpl-file"
+?"Modo ZPL/RAW: o botão Enviar QR pelo IP gera o arquivo .zpl para o fluxo RAW/9100 do notebook."
+:"Modo Zebra/ZQ630 Plus: Enviar QR pelo IP usa http://IP/pstprnt."
+);
 });
+
+$("meliBtn").addEventListener("click",()=>{
+const inventory=$("meliInventory").value.trim();
+
+if(!inventory){
+setStatus("Digite o código do inventário do Mercado Livre.","error");
+return;
+}
+
+window.open(
+"https://wms.adminml.com/labeling?inventory="+
+encodeURIComponent(inventory),
+"_blank"
+);
+});
+
+$("clearBtn").addEventListener("click",()=>{
+$("qrContent").value="";
+$("displayTextInput").value="";
+$("smallTextInput").value="";
+$("printFormat").value="label1015";
+$("size").value="auto";
+$("ec").value="M";
+$("qrcode").innerHTML="";
+$("displayText").textContent="";
+$("smallText").textContent="";
+$("meliInventory").value="";
+current=null;
+
+$("printerIp").value=
+localStorage.getItem("bruna_printer_ip")||"";
+
+$("printerMode").value=
+localStorage.getItem("bruna_printer_mode")||"zpl-http";
+
+setPrintStatus(
+"Gere um QR Code para habilitar as opções de impressão."
+);
+
+setStatus("Campos limpos.");
+});
+
+$("selectAllBtn").addEventListener("click",()=>{
+const boxes=[...document.querySelectorAll(".pick")];
+
+const all=
+boxes.length&&
+boxes.every(x=>x.checked);
+
+boxes.forEach(x=>x.checked=!all);
+});
+
+$("printSelectedBtn").addEventListener("click",()=>{
+printItems(getSelected());
+});
+
+$("deleteSelectedBtn").addEventListener("click",()=>{
+const ids=new Set(
+getSelected().map(x=>x.id)
+);
+
+if(!ids.size){
+setStatus(
+"Selecione pelo menos uma etiqueta para excluir.",
+"error"
+);
+return;
+}
+
+saved=saved.filter(x=>!ids.has(x.id));
+
+localStorage.setItem(
+"bruna_qr_labels",
+JSON.stringify(saved)
+);
+
+renderHistory();
+});
+
+$("clearHistoryBtn").addEventListener("click",()=>{
+if(!saved.length)return;
+
+if(confirm("Apagar todas as etiquetas salvas neste navegador?")){
+saved=[];
+localStorage.removeItem("bruna_qr_labels");
+renderHistory();
+}
+});
+
+$("qrContent").addEventListener("keydown",e=>{
+if(e.ctrlKey&&e.key==="Enter")generate();
+});
+
+addMultiRow();
+addMultiRow();
+addMultiRow();
+
+$("addMultiRowBtn").addEventListener(
+"click",
+()=>addMultiRow()
+);
+
+$("addFiveMultiRowsBtn").addEventListener(
+"click",
+()=>{
+for(let i=0;i<5;i++)addMultiRow();
+}
+);
+
+$("clearMultiRowsBtn").addEventListener(
+"click",
+()=>{
+$("multiRows").innerHTML="";
+addMultiRow();
+addMultiRow();
+addMultiRow();
+}
+);
+
+$("useMultiRowsBtn").addEventListener(
+"click",
+()=>{
+const rows=getRowsMultiQrList();
+
+$("multiQrList").value=
+rows.map(x=>
+x.content+(x.label?";"+x.label:"")
+).join("\n");
+
+$("multiQrStatus").textContent=
+rows.length
+?`✅ ${rows.length} QR Code(s) preparados.`
+:"Preencha pelo menos um QR Code.";
+
+$("multiQrStatus").className=
+rows.length
+?"status print-ok"
+:"status print-error";
+}
+);
+
+$("exportSavedBtn").addEventListener(
+"click",
+exportSaved
+);
+
+$("importSavedInput").addEventListener(
+"change",
+e=>importSavedFile(e.target.files?.[0])
+);
+
+renderHistory();
+
+$("printerIp").value=
+localStorage.getItem("bruna_printer_ip")||"";
+
+$("printerMode").value=
+localStorage.getItem("bruna_printer_mode")||"zpl-http";
+
+loadScript(LIB_URLS)
+.then(()=>{
+setStatus(
+"Gerador QR carregado corretamente. Pronto para criar etiquetas.",
+"ok"
+);
+})
+.catch(()=>{
+setStatus(
+"Não foi possível carregar a biblioteca QR. Verifique a internet e recarregue a página.",
+"error"
+);
+});
+
+$("multiQrPreviewBtn").addEventListener(
+"click",
+previewMultiQr
+);
+
+$("multiQrPrintBtn").addEventListener(
+"click",
+printMultiQr
+);
+
+$("multiQrClearBtn").addEventListener(
+"click",
+clearMultiQr
+);
 </script>
+
 </body>
 </html>
